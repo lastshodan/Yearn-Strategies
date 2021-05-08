@@ -56,7 +56,6 @@ abstract contract BaseStrategy{
     function ethToWant(uint256 _amtInWei) public virtual view returns (uint256);
     function adjustPosition(uint256 _debtOutstanding) internal virtual;
 
-    
     /**
      * @notice
      *  Provide a signal to the keeper that `tend()` should be called. The
