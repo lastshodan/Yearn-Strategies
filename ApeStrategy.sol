@@ -27,7 +27,6 @@ interface VaultAPI is IERC20 {
  */
 interface StrategyAPI {
     
-
     function tendTrigger(uint256 callCost) external view returns (bool);
     function tend() external;
     function harvestTrigger(uint256 callCost) external view returns (bool);
@@ -190,7 +189,6 @@ contract ApeStrategy is BaseStrategy,VaultAPI,StrategyAPI,IPool{
         uint256 callCost = ethToWant(callCostInWei);
         return false;
     }
-
 
     /**
      * @notice
