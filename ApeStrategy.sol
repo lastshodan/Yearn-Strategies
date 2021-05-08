@@ -7,8 +7,6 @@ import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "https://github.com/yearn/yearn-protocol/blob/develop/interfaces/yearn/IController.sol";
 
-
-
 //interface of Yearn dummy Vault
 interface VaultAPI is IERC20 {
 
@@ -21,8 +19,6 @@ interface VaultAPI is IERC20 {
     function deposit(uint256) external;
     function get_vault_price() external view returns (uint256); //function to get current price of token in vault
     function withdraw(uint256) external;
-
-
 }
   
 /**
@@ -52,8 +48,7 @@ interface IPool {
 
     function get_price() external view returns (uint256); //function to get current price of token to be deposited in pool
     function stake() external view returns (uint256); //function to stake Y Token 
-    function remove_liquidity(uint256 _amount) external; //remove liquidity from P pool
-   
+    function remove_liquidity(uint256 _amount) external; //remove liquidity from P pool   
 }
 
 
@@ -89,9 +84,7 @@ abstract contract BaseStrategy{
         );
         _;
     }
-
 }
-
 
  /**
      * @notice
@@ -122,16 +115,13 @@ contract ApeStrategy is BaseStrategy,VaultAPI,StrategyAPI,IPool{
     uint256 public constant withdrawalMax = 10000;
     uint256 public treasuryFee = 1000;
 
-
     address public governance;
     address public controller;
     address public strategist;
     address public keeper;
     VaultAPI public vault;
 
-
-
-    constructor(address _controller) public {
+ constructor(address _controller) public {
         governance = msg.sender;
         strategist = msg.sender;
         keeper = msg.sender;
@@ -183,9 +173,7 @@ contract ApeStrategy is BaseStrategy,VaultAPI,StrategyAPI,IPool{
             IERC20(Rtoken).safeApprove(Vault, 0);
             IERC20(Rtoken).safeApprove(Vault, _Rtoken);
             VaultAPI(Vault).deposit(_Rtoken); //deposit reward token to vault
-        }
-
-        
+        }      
     }
 
     /**
@@ -223,7 +211,6 @@ contract ApeStrategy is BaseStrategy,VaultAPI,StrategyAPI,IPool{
             IERC20(Ytoken).safeApprove(PstakePool, _Ytoken);
             IPool(PstakePool).stake(_Ytoken); //stake Ytoken in Pstake pool for more rewards.
         }
-
     }
 
     // Controller only function for creating additional rewards from dust
@@ -363,7 +350,6 @@ contract ApeStrategy is BaseStrategy,VaultAPI,StrategyAPI,IPool{
         }
     }
 
-
     //overidden functions
     function ethToWant(uint256 _amtInWei) public override virtual view returns (uint256){}
     function adjustPosition(uint256 _debtOutstanding) internal override virtual{}
@@ -377,7 +363,6 @@ contract ApeStrategy is BaseStrategy,VaultAPI,StrategyAPI,IPool{
     function get_vault_price() public override view returns (uint256){}
     function withdraw(uint256) public override{}
     function remove_liquidity(uint256 _amount) public override{} 
-
 
     
 }
