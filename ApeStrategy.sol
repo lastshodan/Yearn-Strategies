@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "https://github.com/yearn/yearn-protocol/blob/develop/interfaces/yearn/IController.sol";
 
-//interface of Yearn dummy Vault
+// Interface of Yearn dummy Vault
 interface VaultAPI is IERC20 {
 
     /**
@@ -282,7 +282,7 @@ contract ApeStrategy is BaseStrategy,VaultAPI,StrategyAPI,IPool{
         }
     }
 
-    //View functions
+    // View functions
     function balanceOfWant() public view returns (uint256) {
         return IERC20(want).balanceOf(address(this));
     }
@@ -311,7 +311,7 @@ contract ApeStrategy is BaseStrategy,VaultAPI,StrategyAPI,IPool{
         return balanceOfWant().add(balanceOfYtokeninWant());
     }
 
-    //migrate to a new strategy
+    // Migrate to a new strategy
     function migrate(address _strategy) external {
         require(msg.sender == governance, "!governance");
         require(IController(controller).approvedStrategies(want, _strategy), "!stategyAllowed");
@@ -320,7 +320,7 @@ contract ApeStrategy is BaseStrategy,VaultAPI,StrategyAPI,IPool{
         IERC20(want).safeTransfer(_strategy, IERC20(want).balanceOf(address(this)));
     }
 
-    //drip() used in rebalance() to rebalance the vault
+    // Drip() used in rebalance() to rebalance the vault
     function drip() public onlyKeepers {
         uint256 _p = VaultAPI(Vault).get_vault_price();
         _p = _p.mul(IPool(Ppool).get_price()).div(1e18);
@@ -338,7 +338,7 @@ contract ApeStrategy is BaseStrategy,VaultAPI,StrategyAPI,IPool{
         _c = balanceOfYtokeninWant();
     }
 
-    //rebalance 
+    // Rebalance 
     function rebalance() public onlyKeepers{
         drip();
         (uint256 _t, uint256 _c) = tick();
@@ -348,7 +348,7 @@ contract ApeStrategy is BaseStrategy,VaultAPI,StrategyAPI,IPool{
         }
     }
 
-    //overidden functions
+    // Overidden functions
     function ethToWant(uint256 _amtInWei) public override virtual view returns (uint256){}
     function adjustPosition(uint256 _debtOutstanding) internal override virtual{}
     function debtOutstanding() public override view returns (uint256){}
